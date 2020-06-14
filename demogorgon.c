@@ -1,10 +1,12 @@
 
 
+
+
 #include "demogorgon.h"
 
 #define MSJ_ENFRENTAMIENTO "\n\nEl enfrentamiento esta por comenzar, todos listos!\n"
 
-#define MSJ_MAL_INGRESO "Ingreso no valido\n"
+#define MSJ_MAL_INGRESO "Ingreso no valido" 
 #define MSJ_ANIMO "Ingrese el animo de nuestro protagonista (Eleven) en un rango del 1 al 100 inclusive\n"
 
 const int DEF_ANIMO = 0;
@@ -52,21 +54,80 @@ void comenzar_enfrentamiento(){
     printf(MSJ_ENFRENTAMIENTO); 
 }
 int recibir_animo(){
-    printf (MSJ_ANIMO);
+    int animo_recibido = DEF_ANIMO;
+    do{ 
+        printf(MSJ_ANIMO);
+        scanf("%i", &animo_recibido);
+        
+        if ( !verificar_animo_recib(animo_recibido) ){
+            printf(MSJ_MAL_INGRESO);
+        }else{
+            printf("Ingreso aceptado\n");
+        }
+    }while(!verificar_animo_recib(animo_recibido) );
+
+    return animo_recibido;
 }
-/*
+
 bool verificar_animo_recib(int animo_verificar){
+    bool verificado = ANIMO_VERIFICADO;
+    if ((animo_recibido < MIN_ANIMO) && (animo_verificar > MAX_ANIMO)){
+    } 
+    return verificado;
+    
 }
+
 char recibir_confianza(){
+    char confianza_recibida = DEF_NIVEL_CONFIANZA;
+    do{
+        printf(MSJ_CONFIANZA);
+        scanf( "%c", &confianza_recibida);
+        if(verificar_nivel_confianza_recib(confianza_recibida) ){
+            printf("\nIngreso de nivel de confianza correcto");
+        }else{
+            printf(MSJ_MAL_INGRESO);
+        }
+    }while( !verificar_nivel_confianza_recib(confianza_recibida) );
+        
+    return confianza_recibida;
 }
+
 bool verificar_nivel_confianza_recib(char confianza_recibida){
+    bool confianza_verficada= NIVEL_CONFIANZA_NO_VERF;
+    if(confianza_verificar == CONFIANZA_BAJA && confianza_verificar == CONFIANZA_MEDIA && confianza_verificar == CONFIANZA_ALTA){
+        confianza_verficada = NIVEL_CONFIANZA_VERF;
+    }
+    return confianza_verficada;
 }
+
 float recibir_fuerza_psiquica(int nivel_animo, char nivel_confianza){
+    float multiplicador = DEF_MULTIP_CONF;
+    float fuerza_psiquica = DEF_FUERZA_PSQUICA;
+    
+    switch(nivel_confianza){
+        case CONFIANZA_BAJA: 
+            multiplicador = MULTIP_CONF_BAJO;
+            break;
+        case CONFIANZA_MEDIA:
+            multiplicador = MULTIP_CONF_MEDIO;
+            break;
+        case CONFIANZA_ALTA:
+            multiplicador = MULTIP_CONF_ALTO;
+    }
+    fuerza_psiquica = nivel_animo * multiplicador;
+    
+    return fuerza_psiquica;
 }
 float calcular_fuerza(int nivel_animo, float multiplicador_confianza){
+    return (nivel_animo * multiplicador_confianza);
 }
+
 void resultado_enfrentamiento(float fuerza_psiquica){
+    if(fuerza_psiquica < VALOR_GANO_JUSTO){
+        printf("MSJ_RESULT_DESC");
+    }else if(fuerza_psiquica < MIN_GANO){
+        printf("MSJ_GANO_JUSTO");
+    }else if(fuerza_psiquica  >= MIN_GANO && fuerza_psiquica <= MAX_GANO){
+         printf("MSJ_GANO");
+    
 }
-char enfrentamiento(float fuerza_psiquica){
-}
-*/
