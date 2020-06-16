@@ -31,10 +31,13 @@ const float MULTIP_CONF_BAJO = 0.7F;
 const float MULTIP_CONF_MEDIO = 1.3F;
 const float MULTIP_CONF_ALTO = 3.7F;
 
+const float DEF_MULTIP_CONF = 0.0F;
+
 const char DEF_RESULTADO = 'w';
 #define GANO 'g'
 #define GANO_JUSTO 'h'
 #define RESULT_DESCONOCIDO 'd'
+
 const float MIN_GANO = 67.0F;
 const float MAX_GANO = 370.0F;
 const float VALOR_GANO_JUSTO = 65.0F;
@@ -80,7 +83,7 @@ bool verificar_animo_recib(int animo_verificar){
 char recibir_confianza(){
     char confianza_recibida = DEF_NIVEL_CONFIANZA;
     do{
-        printf(MSJ_CONFIANZA);
+        printf(MSJ_RECIBIR_CONFIANZA);
         scanf( "%c", &confianza_recibida);
         if(verificar_nivel_confianza_recib(confianza_recibida) ){
             printf("\nIngreso de nivel de confianza correcto");
@@ -92,9 +95,9 @@ char recibir_confianza(){
     return confianza_recibida;
 }
 
-bool verificar_nivel_confianza_recib(char confianza_recibida){
+bool verificar_nivel_confianza_recib(char confianza_verificar){
     bool confianza_verficada= NIVEL_CONFIANZA_NO_VERF;
-    if(confianza_verificar == CONFIANZA_BAJA && confianza_verificar == CONFIANZA_MEDIA && confianza_verificar == CONFIANZA_ALTA){
+    if(confianza_verificar == CONFIANZA_BAJA || confianza_verificar == CONFIANZA_MEDIA && confianza_verificar == CONFIANZA_ALTA){
         confianza_verficada = NIVEL_CONFIANZA_VERF;
     }
     return confianza_verficada;
@@ -102,8 +105,7 @@ bool verificar_nivel_confianza_recib(char confianza_recibida){
 
 float recibir_fuerza_psiquica(int nivel_animo, char nivel_confianza){
     float multiplicador = DEF_MULTIP_CONF;
-    float fuerza_psiquica = DEF_FUERZA_PSQUICA;
-    
+        
     switch(nivel_confianza){
         case CONFIANZA_BAJA: 
             multiplicador = MULTIP_CONF_BAJO;
@@ -111,23 +113,27 @@ float recibir_fuerza_psiquica(int nivel_animo, char nivel_confianza){
         case CONFIANZA_MEDIA:
             multiplicador = MULTIP_CONF_MEDIO;
             break;
-        case CONFIANZA_ALTA:
+        default:
             multiplicador = MULTIP_CONF_ALTO;
     }
-    fuerza_psiquica = nivel_animo * multiplicador;
+    return calcular_fuerza(nivel_animo, multiplicador);
     
-    return fuerza_psiquica;
 }
 float calcular_fuerza(int nivel_animo, float multiplicador_confianza){
-    return (nivel_animo * multiplicador_confianza);
+    return (nivel_animo * multiplicador_confianza) ;
 }
 
 void resultado_enfrentamiento(float fuerza_psiquica){
     if(fuerza_psiquica < VALOR_GANO_JUSTO){
         printf("MSJ_RESULT_DESC");
     }else if(fuerza_psiquica < MIN_GANO){
-        printf("MSJ_GANO_JUSTO");
-    }else if(fuerza_psiquica  >= MIN_GANO && fuerza_psiquica <= MAX_GANO){
-         printf("MSJ_GANO");
-    
+        printf(MSJ_GANO_JUSTO);
+    }else {
+        printf(MSJ_GANO);
+    }
+}
+
+char enfrentamiento(float fuerza_psiquica){
+        
+     
 }
